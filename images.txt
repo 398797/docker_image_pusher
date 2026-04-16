@@ -1,14 +1,10 @@
-# 基础镜像
+# ==================== 基础测试 ====================
 docker
 nginx
-
-# 支持私库
 xhofe/alist:latest
-
-# 支持指定架构
 --platform=linux/arm64 xiaoyaliu/alist
 
-# ==================== K8s 最新稳定版镜像（自动拉最新）====================
+# ==================== K8s 最新稳定版 ====================
 registry.k8s.io/kube-apiserver:latest
 registry.k8s.io/kube-controller-manager:latest
 registry.k8s.io/kube-scheduler:latest
@@ -16,21 +12,20 @@ registry.k8s.io/kube-proxy:latest
 registry.k8s.io/pause:latest
 registry.k8s.io/etcd:latest
 registry.k8s.io/coredns/coredns:latest
-registry.k8s.io/metrics-server/metrics-server:latest
 
-# ==================== 监控全家桶 最新版 ====================
-# Prometheus 普罗米修斯
+# ==================== 监控全家桶 ====================
+# Prometheus
 prom/prometheus:latest
 prom/alertmanager:latest
 prom/node-exporter:latest
 
-# Grafana 可视化面板
+# Grafana
 grafana/grafana:latest
 
-# 夜莺监控（Nightingale）
+# 夜莺
 flashcatcloud/nightingale:latest
 flashcatcloud/n9e-server:latest
 flashcatcloud/n9e-agent:latest
 
-# VictoriaMetrics 高性能时序库（夜莺配套）
+# VictoriaMetrics
 victoriametrics/victoria-metrics:latest
