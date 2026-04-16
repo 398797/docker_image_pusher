@@ -1,18 +1,31 @@
-# 基础镜像
+# ===================== 基础镜像 =====================
+# 通用基础镜像（稳定无依赖）
 nginx
 docker
+
+# Alist 文件管理（含ARM64架构版）
 xhofe/alist:latest
 --platform=linux/arm64 xiaoyaliu/alist
 
-# 监控镜像
+# ===================== 监控镜像 =====================
+# Prometheus 核心
 prom/prometheus:latest
 prom/alertmanager:latest
+
+# 可视化 & 监控平台
 grafana/grafana:latest
 flashcatcloud/nightingale:latest
+
+# 时序数据库
 victoriametrics/victoria-metrics:latest
 
-# K8s 镜像（分批加，先加4个稳的）
+# ===================== K8s 核心镜像（第一批） =====================
+# 基础依赖（必选）
 registry.k8s.io/pause:latest
+
+# 网络 & 解析（必选）
 registry.k8s.io/coredns/coredns:latest
 registry.k8s.io/kube-proxy:latest
+
+# 存储数据库（必选）
 registry.k8s.io/etcd:latest
