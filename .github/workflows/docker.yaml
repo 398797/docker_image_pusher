@@ -22,8 +22,24 @@ jobs:
     - name: Login to Aliyun
       run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
 
-    - name: Test pull and push
+    - name: Pull and Push All Images
       run: |
-        docker pull hello-world
-        docker tag hello-world $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/hello-world:latest
-        docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/hello-world:latest
+        while IFS= read -r line || [ -n "$line" ]; do
+          [[ -z "$line" ]] && continue
+          [[ "$line" =~ ^# ]] && continue
+
+          echo "正在拉取: $line"
+          docker pull $line
+
+          image=$(echo "$line" | awk '{print $NF}')
+          image_name_tag=$(echo "$image" | awk -F'/' '{print $NF}')
+          new_image="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$image_name_tag"
+
+          echo "正在标记: $new_image"
+          docker tag "$image" "$new_image"
+
+          echo "正在推送: $new_image"
+          docker push "$new_image"
+
+          docker rmi "$image" "$new_image"
+        done < images.txt
