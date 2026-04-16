@@ -1,6 +1,5 @@
 # 基础镜像
 nginx
-hello-world
 docker
 xhofe/alist:latest
 --platform=linux/arm64 xiaoyaliu/alist
