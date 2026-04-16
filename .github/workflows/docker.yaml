@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '00 15 * * *'  # 北京时间 23:00 自动同步
+    - cron: '00 15 * *'
 
 env:
   ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}
@@ -24,22 +24,33 @@ jobs:
 
     - name: Pull and Push All Images
       run: |
+        set +e
+        
         while IFS= read -r line || [ -n "$line" ]; do
           [[ -z "$line" ]] && continue
           [[ "$line" =~ ^# ]] && continue
 
-          echo "正在拉取: $line"
+          echo "====================================="
+          echo "正在处理：$line"
+
           docker pull $line
 
           image=$(echo "$line" | awk '{print $NF}')
-          image_name_tag=$(echo "$image" | awk -F'/' '{print $NF}')
-          new_image="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$image_name_tag"
+          image="${image%%@*}"
 
-          echo "正在标记: $new_image"
-          docker tag "$image" "$new_image"
+          platform=$(echo "$line" | grep -o '--platform[ =][^ ]*' | head -1 | cut -d' ' -f2 | cut -d'=' -f2)
+          if [ -n "$platform" ]; then
+            prefix="${platform//\//_}_"
+          else
+            prefix=""
+          fi
 
-          echo "正在推送: $new_image"
-          docker push "$new_image"
+          name=$(echo "$image" | awk -F/ '{print $NF}')
+          new="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$prefix$name"
 
-          docker rmi "$image" "$new_image"
+          docker tag "$image" "$new"
+          docker push "$new"
+
+          docker rmi "$image" "$new"
+          echo "✅ 同步完成：$new"
         done < images.txt
