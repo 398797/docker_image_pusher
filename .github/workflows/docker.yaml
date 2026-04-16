@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '00 15 * *'
+    - cron: '00 15 * * *'
 
 env:
   ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}
@@ -22,35 +22,17 @@ jobs:
     - name: Login to Aliyun
       run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
 
-    - name: Pull and Push All Images
+    - name: Pull and Push
       run: |
         set +e
         
-        while IFS= read -r line || [ -n "$line" ]; do
-          [[ -z "$line" ]] && continue
-          [[ "$line" =~ ^# ]] && continue
-
-          echo "====================================="
-          echo "正在处理：$line"
-
-          docker pull $line
-
-          image=$(echo "$line" | awk '{print $NF}')
-          image="${image%%@*}"
-
-          platform=$(echo "$line" | grep -o '--platform[ =][^ ]*' | head -1 | cut -d' ' -f2 | cut -d'=' -f2)
-          if [ -n "$platform" ]; then
-            prefix="${platform//\//_}_"
-          else
-            prefix=""
-          fi
-
-          name=$(echo "$image" | awk -F/ '{print $NF}')
-          new="$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$prefix$name"
-
-          docker tag "$image" "$new"
-          docker push "$new"
-
-          docker rmi "$image" "$new"
-          echo "✅ 同步完成：$new"
-        done < images.txt
+        for img in nginx hello-world docker xhofe/alist:latest; do
+          echo "正在同步：$img"
+          docker pull $img
+          name=$(echo $img | awk -F/ '{print $NF}')
+          new=$ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/$name
+          docker tag $img $new
+          docker push $new
+          docker rmi $img $new
+          echo "同步完成：$new"
+        done
