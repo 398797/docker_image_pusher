@@ -5,9 +5,23 @@ on:
   push:
     branches: [ main ]
 
+env:
+  ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}
+  ALIYUN_NAME_SPACE: ${{ secrets.ALIYUN_NAME_SPACE }}
+  ALIYUN_REGISTRY_USER: ${{ secrets.ALIYUN_REGISTRY_USER }}
+  ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+
 jobs:
-  test:
+  pull:
     runs-on: ubuntu-latest
     steps:
-    - name: Just print hello
-      run: echo "✅ GitHub Actions 环境正常！"
+    - uses: actions/checkout@v5
+
+    - name: Login to Aliyun
+      run: docker login -u $ALIYUN_REGISTRY_USER -p $ALIYUN_REGISTRY_PASSWORD $ALIYUN_REGISTRY
+
+    - name: Test pull and push
+      run: |
+        docker pull hello-world
+        docker tag hello-world $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/hello-world:latest
+        docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/hello-world:latest
