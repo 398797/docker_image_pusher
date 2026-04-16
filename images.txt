@@ -1,25 +1,4 @@
-# 基础镜像
-docker
 nginx
+hello-world
+docker
 xhofe/alist:latest
---platform=linux/arm64 xiaoyaliu/alist
-
-# K8s 组件
-registry.k8s.io/kube-apiserver:latest
-registry.k8s.io/kube-controller-manager:latest
-registry.k8s.io/kube-scheduler:latest
-registry.k8s.io/kube-proxy:latest
-registry.k8s.io/pause:latest
-registry.k8s.io/etcd:latest
-registry.k8s.io/coredns/coredns:latest
-registry.k8s.io/metrics-server/metrics-server:latest
-
-# 监控全家桶
-prom/prometheus:latest
-prom/alertmanager:latest
-prom/node-exporter:latest
-grafana/grafana:latest
-flashcatcloud/nightingale:latest
-flashcatcloud/n9e-server:latest
-flashcatcloud/n9e-agent:latest
-victoriametrics/victoria-metrics:latest
