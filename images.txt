@@ -11,6 +11,7 @@ xhofe/alist:latest
 # Prometheus 核心
 prom/prometheus:latest
 prom/alertmanager:latest
+kube-state-metrics/kube-state-metrics:latest
 
 # 可视化 & 监控平台
 grafana/grafana:latest
