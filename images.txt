@@ -2,3 +2,11 @@ nginx
 hello-world
 docker
 xhofe/alist:latest
+nginx
+hello-world
+docker
+xhofe/alist:latest
+# 新增监控镜像
+prom/prometheus:latest
+prom/alertmanager:latest
+grafana/grafana:latest
