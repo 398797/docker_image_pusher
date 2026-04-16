@@ -11,7 +11,6 @@ xhofe/alist:latest
 # Prometheus 核心
 prom/prometheus:latest
 prom/alertmanager:latest
-kube-state-metrics/kube-state-metrics:latest
 
 # 可视化 & 监控平台
 grafana/grafana:latest
@@ -30,3 +29,7 @@ registry.k8s.io/kube-proxy:latest
 
 # 存储数据库（必选）
 registry.k8s.io/etcd:latest
+
+# ===================== 流媒体服务器（SRT高并发） =====================
+# SRS：支持SRT多并发推流/拉流，官方镜像
+ossrs/srs:5
