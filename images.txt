@@ -1,12 +1,19 @@
+# 基础镜像
 nginx
 hello-world
 docker
 xhofe/alist:latest
-nginx
-hello-world
-docker
-xhofe/alist:latest
-# 新增监控镜像
+--platform=linux/arm64 xiaoyaliu/alist
+
+# 监控镜像
 prom/prometheus:latest
 prom/alertmanager:latest
 grafana/grafana:latest
+flashcatcloud/nightingale:latest
+victoriametrics/victoria-metrics:latest
+
+# K8s 镜像（分批加，先加4个稳的）
+registry.k8s.io/pause:latest
+registry.k8s.io/coredns/coredns:latest
+registry.k8s.io/kube-proxy:latest
+registry.k8s.io/etcd:latest
