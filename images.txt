@@ -1,4 +1,4 @@
-# ==================== 基础测试 ====================
+# ==================== 基础镜像 ====================
 docker
 nginx
 xhofe/alist:latest
@@ -12,6 +12,7 @@ registry.k8s.io/kube-proxy:latest
 registry.k8s.io/pause:latest
 registry.k8s.io/etcd:latest
 registry.k8s.io/coredns/coredns:latest
+registry.k8s.io/metrics-server/metrics-server:latest
 
 # ==================== 监控全家桶 ====================
 # Prometheus
@@ -22,7 +23,7 @@ prom/node-exporter:latest
 # Grafana
 grafana/grafana:latest
 
-# 夜莺
+# 夜莺监控
 flashcatcloud/nightingale:latest
 flashcatcloud/n9e-server:latest
 flashcatcloud/n9e-agent:latest
