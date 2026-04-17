@@ -12,11 +12,11 @@ xhofe/alist:latest
 prom/prometheus:latest
 prom/alertmanager:latest
 prom/snmp-exporter:latest
-prom/influxdb:latest
 
 # 可视化 & 监控平台
 grafana/grafana:latest
 flashcatcloud/nightingale:latest
+influxdb:latest
 
 # 时序数据库
 victoriametrics/victoria-metrics:latest
